@@ -134,7 +134,7 @@ where
                         );
                     }),
                     CycleRecoveryStrategy::Fixpoint => {
-                        tracing::debug!(
+                        tracing::trace!(
                             "hit cycle at {database_key_index:#?}, \
                             inserting and returning fixpoint initial value"
                         );
@@ -154,7 +154,7 @@ where
                         ))
                     }
                     CycleRecoveryStrategy::FallbackImmediate => {
-                        tracing::debug!(
+                        tracing::trace!(
                             "hit a `FallbackImmediate` cycle at {database_key_index:#?}"
                         );
                         let active_query = db.zalsa_local().push_query(database_key_index, 0);

@@ -23,7 +23,7 @@ impl Database for DatabaseImpl {
     /// Default behavior: tracing debug log the event.
     #[inline(always)]
     fn salsa_event(&self, event: &dyn Fn() -> Event) {
-        tracing::debug!("salsa_event({:?})", event());
+        tracing::trace!("salsa_event({:?})", event());
     }
 }
 

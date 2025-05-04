@@ -56,7 +56,7 @@ where
         loop {
             let database_key_index = self.database_key_index(id);
 
-            tracing::debug!("{database_key_index:?}: maybe_changed_after(revision = {revision:?})");
+            tracing::trace!("{database_key_index:?}: maybe_changed_after(revision = {revision:?})");
 
             // Check if we have a verified version: this is the hot path.
             let memo_guard = self.get_memo_from_table_for(zalsa, id, memo_ingredient_index);
@@ -130,7 +130,7 @@ where
             return Some(VerifyResult::Changed);
         };
 
-        tracing::debug!(
+        tracing::trace!(
             "{database_key_index:?}: maybe_changed_after_cold, successful claim, \
                 revision = {revision:?}, old_memo = {old_memo:#?}",
             old_memo = old_memo.tracing_debug()
@@ -187,7 +187,7 @@ where
         database_key_index: DatabaseKeyIndex,
         memo: &Memo<C::Output<'_>>,
     ) -> Option<ShallowUpdate> {
-        tracing::debug!(
+        tracing::trace!(
             "{database_key_index:?}: shallow_verify_memo(memo = {memo:#?})",
             memo = memo.tracing_debug()
         );
@@ -200,7 +200,7 @@ where
         }
 
         let last_changed = zalsa.last_changed_revision(memo.revisions.durability);
-        tracing::debug!(
+        tracing::trace!(
             "{database_key_index:?}: check_durability(memo = {memo:#?}, last_changed={:?} <= verified_at={:?}) = {:?}",
             last_changed,
             verified_at,
@@ -341,7 +341,7 @@ where
         old_memo: &Memo<C::Output<'_>>,
         database_key_index: DatabaseKeyIndex,
     ) -> VerifyResult {
-        tracing::debug!(
+        tracing::trace!(
             "{database_key_index:?}: deep_verify_memo(old_memo = {old_memo:#?})",
             old_memo = old_memo.tracing_debug()
         );

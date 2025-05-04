@@ -195,7 +195,7 @@ impl ZalsaLocal {
         accumulated_inputs: &AtomicInputAccumulatedValues,
         cycle_heads: &CycleHeads,
     ) {
-        debug!(
+        tracing::trace!(
             "report_tracked_read(input={:?}, durability={:?}, changed_at={:?})",
             input, durability, changed_at
         );
@@ -221,7 +221,7 @@ impl ZalsaLocal {
         durability: Durability,
         changed_at: Revision,
     ) {
-        debug!(
+        tracing::trace!(
             "report_tracked_read(input={:?}, durability={:?}, changed_at={:?})",
             input, durability, changed_at
         );

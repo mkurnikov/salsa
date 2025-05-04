@@ -93,7 +93,7 @@ where
             revisions,
         };
 
-        tracing::debug!(
+        tracing::trace!(
             "specify: about to add memo {:#?} for key {:?}",
             memo.tracing_debug(),
             key

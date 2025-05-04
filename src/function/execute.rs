@@ -30,7 +30,7 @@ where
         let database_key_index = active_query.database_key_index;
         let id = database_key_index.key_index();
 
-        tracing::info!("{:?}: executing query", database_key_index);
+        tracing::trace!("{:?}: executing query", database_key_index);
 
         db.salsa_event(&|| {
             Event::new(EventKind::WillExecute {
@@ -167,7 +167,7 @@ where
                 };
                 // SAFETY: The `LRU` does not run mid-execution, so the value remains filled
                 let last_provisional_value = unsafe { last_provisional_value.unwrap_unchecked() };
-                tracing::debug!(
+                tracing::trace!(
                     "{database_key_index:?}: execute: \
                         I am a cycle head, comparing last provisional value with new value"
                 );
@@ -193,10 +193,10 @@ where
                         C::id_to_input(db, id),
                     ) {
                         crate::CycleRecoveryAction::Iterate => {
-                            tracing::debug!("{database_key_index:?}: execute: iterate again");
+                            tracing::trace!("{database_key_index:?}: execute: iterate again");
                         }
                         crate::CycleRecoveryAction::Fallback(fallback_value) => {
-                            tracing::debug!(
+                            tracing::trace!(
                                 "{database_key_index:?}: execute: user cycle_fn says to fall back"
                             );
                             new_value = fallback_value;
@@ -235,13 +235,13 @@ where
 
                     continue;
                 }
-                tracing::debug!(
+                tracing::trace!(
                     "{database_key_index:?}: execute: fixpoint iteration has a final value"
                 );
                 revisions.cycle_heads.remove(&database_key_index);
             }
 
-            tracing::debug!("{database_key_index:?}: execute: result.revisions = {revisions:#?}");
+            tracing::trace!("{database_key_index:?}: execute: result.revisions = {revisions:#?}");
 
             break (new_value, revisions);
         }
